@@ -1,21 +1,10 @@
 <?php
-/*
-- 📍 Pickup: (Do not change passenger address unless they did not mention city/town then add city/town to his address without post code from his location: '.$address.' & if user mention only a city then change the address to the center of this city and make sure you using his city name and no other city)
-- 🏁 Destination: (Do not change passenger address unless they did not mention city/town then add city/town to his address without post code from his location: '.$address.' & if user mention only a city then change the address to the center of this city and make sure you using his city name and no other city) */
 
 require '../xmpp_lib/vendor/autoload.php';
 
 use Fabiang\Xmpp\Options;
 use Fabiang\Xmpp\Client;
 use Fabiang\Xmpp\Protocol\Message;
-/*
-use Fabiang\Xmpp\Protocol\Presence;
-
-$presence = new Presence;
-$presence->setTo('booker001@jabber.hot-chilli.net');
-$presence->setType('subscribe');
-$client->send($presence);
-*/
 
 $verify_token = '*************'; // Your verify token
 $access_token = '*************'; // Your WhatsApp Cloud API token
@@ -73,12 +62,7 @@ $messageData = $input['entry'][0]['changes'][0]['value']['messages'][0] ?? [];
 
 $sender = $messageData['from'] ?? null;
 $senderName = $input['entry'][0]['changes'][0]['value']['contacts'][0]['profile']['name'] ?? 'Passenger';
-/*
-if ($sender != '212669162344'){
-    sendWhatsAppMessage($sender, "The system is temporarily unavailable due to ongoing development.", $access_token, $phone_number_id);
-    exit;
-}
-*/
+
 if ($messageType === 'text') {
     $message = $messageData['text']['body'] ?? null;
 } elseif ($messageType === 'audio') {
@@ -138,10 +122,6 @@ function getBotReply($userMessage, $sender, $senderNameFromWhatsApp, $contextId)
 
     $contextId = $contextId ?? 'N/A';
 
-/*  if ($contextId){
-        return "context id is: ".$contextId;
-    } 
-*/
 
     if ($previousLocation){
         $lats = $previousLocation['latitude'] ?? '';
@@ -276,18 +256,6 @@ function getBotReply($userMessage, $sender, $senderNameFromWhatsApp, $contextId)
 
     } 
 
-/*
-    // Handle previous booking requests
-    if (preg_match('/(my booking|previous booking|last ride|what did i book)/i', $userMessage)) {
-        if ($previousBooking && isset($previousBooking['details'])) {
-            return "Hi {$senderName}, here are your last booking details:\n\n" . $previousBooking['details'];
-        } else {
-            return "Hi {$senderName}, I couldn't find any previous booking for you.";
-        }
-    }
-
-*/
-
     // Generate booking details with OpenAI // 
     $apiUrl = 'https://api.openai.com/v1/chat/completions';
     $data = [
@@ -343,14 +311,8 @@ function getBotReply($userMessage, $sender, $senderNameFromWhatsApp, $contextId)
     if ($reply == 'error') {
         return "Hi ".$senderName.", I do not understand your request.";
     }else{
-        /*
-        if ($reply == 'make a booking' && $progress && $progress == 1){
-            return "Hi ".$senderName.", It looks like you already have a taxi booking in progress.\n\nIf you've arrived, reply arrived.\nIf you'd like to cancel it, reply cancel.";
-        }
-        */
         sendXmppMessage($userMessage, $lats, $lngs, $senderName, $sender, $token, $wamid, $reply, $contextId);
         exit;
-
     }
 }
 
