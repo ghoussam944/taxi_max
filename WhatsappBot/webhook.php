@@ -626,10 +626,10 @@ function transcribeWhatsAppAudio($sender, $mediaId, $access_token, $phone_number
 }
 
 function sendXmppMessage($userMessage, $lats, $lngs, $senderName, $sender, $id, $wamid, $reply, $contextId){
-    $xmppUser = 'driver'; // without domain
-    $xmppPassword = '123456789';
+    $xmppUser = '****'; // without domain
+    $xmppPassword = '*************';
     $xmppDomain = 'jabber.hot-chilli.net';
-    $recipient = 'booker001@jabber.hot-chilli.net';
+    $recipient = '***********@jabber.hot-chilli.net';
     $nearestCompany = getNearestCompanyId($lats, $lngs) ?? ['id' => null, 'name' => null];
     $companyName = $nearestCompany['name'] ?? 'N/A';
     $companyId = $nearestCompany['id'] ?? 'N/A';
@@ -697,10 +697,10 @@ function sendXmppMessage($userMessage, $lats, $lngs, $senderName, $sender, $id, 
 
 function sendXmppConfirmMessage($sender, $name, $pickup, $destination, $time, $passengers, $luggage, $requests, $now, $car, $systemid, $wamid, $contextId){
 
-    $xmppUser = 'driver'; // without domain
-    $xmppPassword = '123456789';
+    $xmppUser = '*****'; // without domain
+    $xmppPassword = '************';
     $xmppDomain = 'jabber.hot-chilli.net';
-    $recipient = 'booker001@jabber.hot-chilli.net';
+    $recipient = '******@jabber.hot-chilli.net';
     /*
     <passengerbookings>
         <messagetype>amendedbooking<messagetype>
